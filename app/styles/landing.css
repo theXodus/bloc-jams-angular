@@ -35,7 +35,7 @@ body.landing {
   position: relative;
   padding: 2rem;
   text-align: center;
-  opacity: 0;
+  opacity: 1;
   -webkit-transform: scaleX(0.9) translateY(3rem);
   -moz-transform: scaleX(0.9) translateY(3rem);
   transform: scaleX(0.9) translateY(3rem);
@@ -62,7 +62,7 @@ body.landing {
   10%, 90% {
     transform: translate3d(-1px, 0, 0);
   }
-  
+
   20%, 80% {
     transform: translate3d(2px, 0, 0);
   }
@@ -76,8 +76,8 @@ body.landing {
   }
 }
 
-.ion-music-note, 
-.ion-radio-waves, 
+.ion-music-note,
+.ion-radio-waves,
 .ion-iphone {
   color: rgb(233,50,117);
   font-size: 5rem;
