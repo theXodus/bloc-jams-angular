@@ -12,7 +12,7 @@
       offsetXPercent = Math.max(0, offsetXPercent);
       offsetXPercent = Math.min(1, offsetXPercent);
       return offsetXPercent;
-  };
+    };
 
     return {
       templateUrl: '/templates/directives/seek_bar.html',
@@ -52,6 +52,10 @@
         */
         scope.fillStyle = function() {
           return {width: percentString()};
+        };
+
+        scope.thumbStyle = function() {
+          return {left: percentString()};
         };
 
         /**
