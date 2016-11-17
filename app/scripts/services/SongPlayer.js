@@ -1,5 +1,5 @@
 (function(){
-  function SongPlayer(Fixtures) {
+  function SongPlayer($rootScope, Fixtures) {
     var SongPlayer = {};
 
     /**
@@ -22,6 +22,12 @@
       currentBuzzObject = new buzz.sound(song.audioUrl, {
         formats: ['mp3'],
         preload: true
+      });
+
+      currentBuzzObject.bind('timeupdate', function(){
+        $rootScope.$apply(function(){
+          SongPlayer.currentTime = currentBuzzObject.getTime();
+        });
       });
 
       SongPlayer.currentSong = song;
@@ -62,6 +68,12 @@
     * @type {Object}
     */
     SongPlayer.currentSong = null;
+
+    /**
+    * @desc Current playback time (in seconds) of currently playing song
+    * @type {Number}
+    */
+    SongPlayer.currentTime = null;
 
     /**
     * @function SongPlayer.play
@@ -109,6 +121,17 @@
     };
 
     /**
+    * @function setCurrentTime
+    * @desc Set current time (in seconds) of currently playing song
+    * @param {Number} time
+    */
+    SongPlayer.setCurrentTime = function(time) {
+      if (currentBuzzObject) {
+        currentBuzzObject.setTime(time);
+      }
+    };
+
+    /**
     * @function SongPlayer.previous
     * @desc find the currentSongIndex and then decrease index by one... if index is less than 0 stop song.
     */
@@ -130,5 +153,5 @@
 
   angular
     .module('blocJams')
-    .factory('SongPlayer', SongPlayer);
+    .factory('SongPlayer', ['$rootScope', 'Fixtures', SongPlayer]);
 })();

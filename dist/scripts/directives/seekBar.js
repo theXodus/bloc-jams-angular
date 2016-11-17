@@ -18,7 +18,9 @@
       templateUrl: '/templates/directives/seek_bar.html',
       replace: true,
       restrict: 'E',
-      scope: { },
+      scope: {
+        onChange: '&'
+      },
       link: function(scope, element, attributes) {
 
         /**
@@ -34,6 +36,21 @@
         * @desc Holds the element that matches the directive as jQuery object
         */
         var seekBar = $(element);
+
+        /**
+        * @desc watches the attribute 'value' and assigns newValue if changed.
+        * used to find the position of the seek bar thumb and playback position.
+        */
+        attributes.$observe('value', function(newValue) {
+          scope.value = newValue;
+        });
+
+        /**
+        * @desc watches the attribute 'max' and assigns newValue if changed.
+        */
+        attributes.$observe('max', function(newValue) {
+          scope.max = newValue;
+        });
 
         /**
         * @function percentString
@@ -66,6 +83,7 @@
         scope.onClickSeekBar = function(event) {
           var percent = calculatePercent(seekBar, event);
           scope.value = percent * scope.max;
+          notifyOnChange(scope.value);
         };
 
         scope.trackThumb = function() {
@@ -73,6 +91,7 @@
             var percent = calculatePercent(seekBar, event);
             scope.$apply(function() {
               scope.value = percent * scope.max;
+              notifyOnChange(scope.value);
             });
           });
 
@@ -80,6 +99,12 @@
             $document.unbind('mousemove.thumb');
             $document.unbind('mouseup.thumb');
           });
+        };
+
+        var notifyOnChange = function(newValue) {
+          if (typeof scope.onChange === 'function') {
+            scope.onChange({value: newValue});
+          }
         };
       }
     };
