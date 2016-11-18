@@ -76,6 +76,12 @@
     SongPlayer.currentTime = null;
 
     /**
+    * @desc Current volume of currently playing song
+    * @type {Number}
+    */
+    SongPlayer.volume = null;
+
+    /**
     * @function SongPlayer.play
     * @desc if SongPlayer.currentSong is not the song selected, setSong to the song selected...
     * then play song.
@@ -117,6 +123,13 @@
         var song = SongPlayer.currentAlbum.songs[currentSongIndex];
         setSong(song);
         playSong(song);
+      }
+    };
+
+    SongPlayer.setVolume = function(volume) {
+      if (currentBuzzObject) {
+        currentBuzzObject.setVolume(volume);
+        SongPlayer.volume = currentBuzzObject.getVolume();
       }
     };
 
